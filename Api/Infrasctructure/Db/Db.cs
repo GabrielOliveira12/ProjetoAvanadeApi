@@ -10,11 +10,17 @@ namespace ProjetoAvanadeApi.Infrasctructure.Db
 {
     public class Db : DbContext
     {
-       private readonly IConfiguration _configuration;
+       private readonly IConfiguration? _configuration;
+        
         public Db(IConfiguration configuration)
         {
             _configuration = configuration;
         }
+
+        public Db(DbContextOptions<Db> options) : base(options)
+        {
+        }
+
         public DbSet<Admin> Admins { get; set; } = default!;
         public DbSet<Vehicle> Vehicle { get; set; } = default!;
 
@@ -31,10 +37,13 @@ namespace ProjetoAvanadeApi.Infrasctructure.Db
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var stringDeConexao = _configuration.GetConnectionString("mysql")?.ToString();
-            if (!string.IsNullOrEmpty(stringDeConexao))
+            if (_configuration != null)
             {
-                optionsBuilder.UseMySql(stringDeConexao, ServerVersion.AutoDetect(stringDeConexao));
+                var stringDeConexao = _configuration.GetConnectionString("mysql")?.ToString();
+                if (!string.IsNullOrEmpty(stringDeConexao))
+                {
+                    optionsBuilder.UseMySql(stringDeConexao, ServerVersion.AutoDetect(stringDeConexao));
+                }
             }
         }
     }

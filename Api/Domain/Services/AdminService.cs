@@ -8,7 +8,7 @@ using ProjetoAvanadeApi.Infrasctructure.Db;
 using ProjetoAvanadeApi.Infrasctructure.Interfaces;
 
 
-namespace ProjetoAvanadeApi.Domain.Services
+namespace ProjetoAvanadeApi.Api.Domain.Services
 {
     public class AdminService : IAdminServices
     {
